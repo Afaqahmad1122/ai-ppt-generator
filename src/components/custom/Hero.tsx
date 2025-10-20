@@ -1,12 +1,16 @@
 import { Video } from "lucide-react";
 import { Button } from "../ui/button";
 import { HeroVideoDialog } from "../ui/hero-video-dialog";
+import { SignInButton, useUser } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
+  const { user } = useUser();
   return (
     <div className="flex flex-col items-center mt-16 sm:mt-20 lg:mt-28 space-y-4 sm:space-y-6 px-4 sm:px-6 lg:px-8">
       <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-center">
-        From Idea to Presentation in Minutes
+        From Idea to <span className="text-primary">Presentation</span> in
+        Minutes
       </h1>
       <p className="text-base sm:text-lg lg:text-xl text-gray-500 max-w-2xl text-center">
         Create stunning presentations with ease using our AI-powered platform.
@@ -21,7 +25,15 @@ const Hero = () => {
           Watch Video
           <Video className="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
-        <Button className="text-sm sm:text-base">Get Started</Button>
+        <Button className="text-sm sm:text-base">
+          {!user ? (
+            <SignInButton mode="modal">Get Started</SignInButton>
+          ) : (
+            <Link to="/workspace">
+              <Button>Go to Workspace</Button>
+            </Link>
+          )}
+        </Button>
       </div>
 
       <div className="relative max-w-4xl w-full mt-8 sm:mt-12">
